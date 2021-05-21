@@ -7,7 +7,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { initRequest } from '../utils/fetchCoinsData';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { coinsRequestAction } from '../actions/actions';
+import { formatNumber } from '../utils/logic/formatNumber';
 
 const useStyles = makeStyles({
   table: {
@@ -15,75 +19,70 @@ const useStyles = makeStyles({
   },
 });
 
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
 
-// const rows = [
-//   createData(1, 159, 6.0, 24, 4.0),
-//   createData(2, 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
 
-export default function DenseTable() {
+function CurrenciesList(props) {
   const classes = useStyles();
-  const [coins, setCoins] = React.useState([])
+  console.log(props.coins)
+  // const [isLoading, setIsLoading] = React.useState(true);
+
+  const getCoinData = async () => {
+    await props.coinsRequestAction()
+  }
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch("https://cors-anywhere.herokuapp.com/pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=USD",
-      initRequest)
-      const body = await data.json()
-      console.log(body)
-      setCoins(body)
-    }
-    fetchData()
-    console.log(coins)
-  }, [])
+    getCoinData()
+    // setIsLoading(false)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  React.useEffect(() => {
-    console.log(coins)
-  }, [coins])
+  if (props.coins && props.coins.length > 0) {
 
-  if (coins.length>0) {
-
-  return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Market Cap</TableCell>
-            <TableCell align="right">Volume</TableCell>
-            <TableCell align="right">Circulating Supply</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {coins.data.map((coin) => (
-            <TableRow key={coin.name}>
-              <TableCell component="th" scope="row">
-                {coin.id}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {coin.name}
-              </TableCell>
-              <TableCell align="right">{coin.quote.USD.price}</TableCell>
-              <TableCell align="right">{coin.quote.USD.market_cap}</TableCell>
-              <TableCell align="right">{coin.quote.USD.volume_24h}</TableCell>
-              <TableCell align="right">{coin.circulating_supply}</TableCell>
+    return (
+      <TableContainer component={Paper}>
+        <Table className={classes.table} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell>#</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">Market Cap</TableCell>
+              <TableCell align="right">Volume</TableCell>
+              <TableCell align="right">Circulating Supply</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
+          </TableHead>
+          <TableBody>
+            {props.coins.map((coin, index) => (
+              <TableRow key={coin.name}>
+                <TableCell component="th" scope="row">
+                  {index + 1}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {coin.name}
+                </TableCell>
+                <TableCell align="right">{formatNumber(coin.quote.USD.price)}</TableCell>
+                <TableCell align="right">{formatNumber(coin.quote.USD.market_cap)}</TableCell>
+                <TableCell align="right">{formatNumber(coin.quote.USD.volume_24h)}</TableCell>
+                <TableCell align="right">{formatNumber(coin.circulating_supply)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )
   }
 
   else {
-    return (<p>Loading</p>)
+    return (<div className="containerLoading"><CircularProgress /></div>)
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    coins: state.coins.data
+  }
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ coinsRequestAction }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrenciesList)

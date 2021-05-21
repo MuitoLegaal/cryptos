@@ -1,0 +1,9 @@
+.containerLoading{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height:100%;
+  position: absolute;
+  width: 100%;
+}

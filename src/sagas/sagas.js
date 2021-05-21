@@ -1,15 +1,16 @@
-import { call, put, takeLatest, fork, all } from "redux-saga/effects";
-import { receiveCoins, RECEIVE_COINS } from "../actions/actions";
+import { call, put, takeLatest, fork } from "redux-saga/effects";
+import { 
+  receiveCoins, REQUEST_COINS, SENDING_COINS_REQUEST
+} from "../actions/actions";
 import fetchCoinsData from "../utils/fetchCoinsData";
 
 //Receive Coins Data
-function* getCoinData(action) {
+function* getCoinData() {
+  yield put({ type: SENDING_COINS_REQUEST, sending: true })
   try {
     const data = yield call(fetchCoinsData);
     if (data) {
-      yield all([
-        put(receiveCoins(data)),
-      ]);
+      yield put(receiveCoins(data))
     }
     return data
   }
@@ -17,10 +18,13 @@ function* getCoinData(action) {
     console.error("Error", error)
     alert('An error occured. Please retry.')
   }
+  finally {
+    yield put({ type: SENDING_COINS_REQUEST, sending: false })
+  }
 }
 
 function* watchLastCoinDataSaga() {
-  yield takeLatest(RECEIVE_COINS, getCoinData);
+  yield takeLatest(REQUEST_COINS, getCoinData);
 };
 
 export default function* saga() {
