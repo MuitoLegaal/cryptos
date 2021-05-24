@@ -11,8 +11,8 @@ const initRequest = {
   gzip: true
 }
 
-const fetchCoinsData = async () => {
-  const data = await fetch("https://cors-anywhere.herokuapp.com/pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=USD",
+const fetchCoinsData = async (currency) => {
+  const data = await fetch(`https://cors-anywhere.herokuapp.com/pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=GBP`,
   initRequest)
   return await data.json()
 }

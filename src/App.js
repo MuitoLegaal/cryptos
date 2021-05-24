@@ -1,12 +1,12 @@
 import './App.css';
-import CurrenciesList from './components/currenciesList';
+import CoinsList from './components/coinsList';
 import { Provider } from 'react-redux';
 import store from './store';
 
 function App() {
   return (
     <Provider store={store}>
-        <CurrenciesList />
+        <CoinsList />
     </Provider>
   );
 }
