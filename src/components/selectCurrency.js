@@ -1,33 +1,33 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { coinsRequestAction } from '../actions/actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { useStyles } from "./styleSelectCurrencies";
+import { ThemeProvider } from '@material-ui/styles';
+import { theme } from './styleSelectCurrencies';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
-export default function SelectCurrency() {
+function SelectCurrency(props) {
   const classes = useStyles();
-  const [currency, setCurrency] = React.useState("EUR");
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+  const handleChange = async (event) => {
+    handleCoinCall(event.target.value)
   };
 
+  const handleCoinCall = async (currency) => {
+    await props.coinsRequestAction(currency)
+  }
+
   return (
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">{currency}</InputLabel>
+    <ThemeProvider theme={theme}>
+      <FormControl color='secondary' className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">{props.currency}</InputLabel>
         <Select
-          value={currency}
+          value={props.currency}
           onChange={handleChange}
         >
           <MenuItem value={"EUR"}>EUR</MenuItem>
@@ -35,5 +35,17 @@ export default function SelectCurrency() {
           <MenuItem value={"GBP"}>GBP</MenuItem>
         </Select>
       </FormControl>
+    </ThemeProvider>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currency: state.coins.currency
+  }
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ coinsRequestAction }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectCurrency)

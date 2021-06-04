@@ -1,6 +1,5 @@
 import React from 'react';
 import '../App.css';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -13,49 +12,65 @@ import { bindActionCreators } from "redux";
 import { coinsRequestAction } from '../actions/actions';
 import SelectCurrency from './selectCurrency';
 import Coin from './coin';
+import { useStyles } from "./styleSelectCurrencies"
+import { ThemeProvider } from '@material-ui/styles';
+import { theme } from './styleSelectCurrencies';
+import TextField from '@material-ui/core/TextField';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
 function CoinsList(props) {
-  const classes = useStyles();
-  console.log(props.coins)
 
+  const [search, setSearch] = React.useState('');
+  const classes = useStyles();
   const getCoinData = async () => {
-    await props.coinsRequestAction()
+    await props.coinsRequestAction(props.currency)
   }
+  const searchedCoins = searching(props.coins)
+
+  function searching(coins) {
+    return coins.filter((coin) =>
+      (coin.name || '').toLowerCase().includes(search.toLowerCase()) ||
+      (coin.symbol || '').toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  console.log(props)
 
   React.useEffect(() => {
     getCoinData()
-    // setIsLoading(false)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (props.coins && props.coins.length > 0) {
 
     return (
-      <div>
-        <SelectCurrency />
-        <TableContainer component={Paper}>
-          <Table className={classes.table} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">24h %</TableCell>
-                <TableCell align="right">7d %</TableCell>
-                <TableCell align="right">Market Cap</TableCell>
-                <TableCell align="right">Volume(24h)</TableCell>
-                <TableCell align="right">Circulating Supply</TableCell>
-              </TableRow>
-            </TableHead>
-              <Coin coins={props.coins} currency={"GBP"}/>
-          </Table>
-        </TableContainer>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <SelectCurrency color='secondary' />
+          <form className={classes.root} noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
+            <TextField id="standard-basic" label="Standard" />
+          </form>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <TableContainer className={classes.tableContainer} component={Paper}>
+            <Table className={classes.table} size="medium">
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell variant='body'>#</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell typography='body2' className='tabTitle' align="right">Price</TableCell>
+                  <TableCell className='tabTitle' align="right">24h %</TableCell>
+                  <TableCell className='tabTitle' align="right">7d %</TableCell>
+                  <TableCell className='tabTitle' align="right">Market Cap</TableCell>
+                  <TableCell className='tabTitle' align="right">Volume(24h)</TableCell>
+                  <TableCell className='tabTitle' align="right">Circulating Supply</TableCell>
+                </TableRow>
+              </TableHead>
+              <Coin searchedCoins={searchedCoins} />
+            </Table>
+          </TableContainer>
+        </div>
+      </ThemeProvider>
     )
   }
 
@@ -66,7 +81,8 @@ function CoinsList(props) {
 
 const mapStateToProps = (state) => {
   return {
-    coins: state.coins.data
+    coins: state.coins.data,
+    currency: state.coins.currency
   }
 };
 

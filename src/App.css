@@ -1,4 +1,9 @@
-.containerLoading{
+html body {
+ background-color: white;
+ color: white;
+}
+
+.containerLoading {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -6,12 +11,41 @@
   height:100%;
   position: absolute;
   width: 100%;
+  background-color: #FFFFFF;
 }
 
-.coinLogo{
+.coinLogo {
   width: 20px;
   height: 20px;
   justify-content: center;
   align-items: center;
   margin-right: 5px;
+}
+
+.lock:hover .icon-unlock,
+.lock .icon-lock {
+  display: none;
+  width: 20px;
+}
+.lock .icon-unlock {
+  width: 20px;
+}
+.lock:hover .icon-unlock {
+  width: 20px;
+}
+.lock:hover .icon-lock {
+  display: inline;
+  width: 20px;
+}
+
+.coinName {
+  white-space: nowrap;
+}
+
+.styleGain{
+  color: green
+}
+
+.styleLoss{
+  color: red
 }

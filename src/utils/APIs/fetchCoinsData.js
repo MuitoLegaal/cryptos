@@ -1,4 +1,4 @@
-import { API_KEYS } from './urlAPIs';
+import { API_KEYS } from '../urlAPIs';
 
 const initRequest = {
   method: 'GET',
@@ -12,7 +12,7 @@ const initRequest = {
 }
 
 const fetchCoinsData = async (currency) => {
-  const data = await fetch(`https://cors-anywhere.herokuapp.com/pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=GBP`,
+  const data = await fetch(`https://cors-anywhere.herokuapp.com/pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5&convert=${currency}`,
   initRequest)
   return await data.json()
 }
