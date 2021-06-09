@@ -1,7 +1,21 @@
 import { 
   makeStyles,
-  unstable_createMuiStrictModeTheme as createMuiTheme
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  withStyles
 } from '@material-ui/core/styles';
+import TableCell from '@material-ui/core/TableCell';
+
+const RedTableCell = withStyles({
+  root:  {
+    color: 'red'
+  }
+})(TableCell);
+
+const GreenTableCell = withStyles({
+  root:  {
+    color: 'green'
+  }
+})(TableCell);
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -28,6 +42,15 @@ const linearProgressStyles = makeStyles(() => ({
   }
 }));
 
+const useStylesPopover = makeStyles((theme) => ({
+  popover: {
+    pointerEvents: 'none',
+  },
+  paper: {
+    padding: theme.spacing(1),
+  },
+}));
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -48,7 +71,7 @@ const theme = createMuiTheme({
     fontFamily: "Inter",
     body1: {
       display: "flex",
-      fontSize: "1.1rem",
+      fontSize: "1.05rem",
       fontFamily: "Inter",
       verticalAlign: "middle",
       alignItems: "center",
@@ -64,13 +87,14 @@ const theme = createMuiTheme({
       fontWeight: 100
     },
     footer: {
-      fontSize: "8rem",
+      display: "flex",
+      fontSize: "0.8rem",
       fontFamily: "Inter",
       verticalAlign: "middle",
-      fontWeight: 500,
-      color: 'green'
+      alignItems: "center",
+      textAlign: "center"
     }
   }
 });
 
-export {useStyles, linearProgressStyles, theme}
+export {useStyles, useStylesPopover, linearProgressStyles, theme, RedTableCell, GreenTableCell}

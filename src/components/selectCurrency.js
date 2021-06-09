@@ -6,9 +6,8 @@ import Select from '@material-ui/core/Select';
 import { coinsRequestAction } from '../actions/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { useStyles } from "./styleSelectCurrencies";
+import { useStyles, theme } from "./styleSelectCurrencies";
 import { ThemeProvider } from '@material-ui/styles';
-import { theme } from './styleSelectCurrencies';
 
 
 function SelectCurrency(props) {
@@ -25,7 +24,7 @@ function SelectCurrency(props) {
   return (
     <ThemeProvider theme={theme}>
       <FormControl color='secondary' className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">{props.currency}</InputLabel>
+        <InputLabel variant='body2' id="demo-simple-select-label">{props.currency}</InputLabel>
         <Select
           value={props.currency}
           onChange={handleChange}

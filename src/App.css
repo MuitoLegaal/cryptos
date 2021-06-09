@@ -49,3 +49,12 @@ html body {
 .styleLoss{
   color: red
 }
+
+.popoverContainer{
+  width: 320px;
+}
+
+.popoverContent{
+  display: flex;
+  justify-content: space-between;
+}
