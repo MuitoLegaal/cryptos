@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
   },
   tableContainer: {
     minWidth: 800,
-    width: "90%",
+    width: "100%"
   }
 }));
 
@@ -53,6 +53,7 @@ const useStylesPopover = makeStyles((theme) => ({
 
 const theme = createMuiTheme({
   palette: {
+    type: 'light',
     primary: {
       main: '#000000',
     },
@@ -86,7 +87,7 @@ const theme = createMuiTheme({
       textAlign: "center",
       fontWeight: 100
     },
-    footer: {
+    subtitle1: {
       display: "flex",
       fontSize: "0.8rem",
       fontFamily: "Inter",

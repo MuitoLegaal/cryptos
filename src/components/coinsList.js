@@ -6,7 +6,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import BackgroundThemeButton from './backgroundThemeButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { coinsRequestAction } from '../actions/actions';
@@ -16,14 +18,15 @@ import { useStyles, theme } from "./styleSelectCurrencies"
 import { ThemeProvider } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import { TableBody } from '@material-ui/core';
-import { sortByName, sortByPrice, sortBySupply, sortBy24h, sortBy7d, sortByMarketCap, sortByVolume } from '../utils/logic/sortedArray';
+import WatchlistButton from './watchListButton';
+import PortfolioButton from './portfolioButton';
+import { sorted } from '../utils/logic/sortingConditions';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
-
 
 function CoinsList(props) {
 
   const [search, setSearch] = React.useState('');
-  const [sorting, setSorting] = React.useState('init');
+  const [sorting, setSorting] = React.useState('IndexUp');
   const classes = useStyles();
   const searchedCoins = searching(props.coins);
   let generateCoin
@@ -94,7 +97,7 @@ function CoinsList(props) {
       setSorting('24hUp')
     }
   }
-  
+
   function handleClickMarketCap() {
     if (sorting !== 'MarketCapDown') {
       setSorting('MarketCapDown')
@@ -103,7 +106,7 @@ function CoinsList(props) {
       setSorting('MarketCapUp')
     }
   }
-  
+
   function handleClickVolume() {
     if (sorting !== 'VolumeDown') {
       setSorting('VolumeDown')
@@ -112,7 +115,7 @@ function CoinsList(props) {
       setSorting('VolumeUp')
     }
   }
-  
+
   function handleClickCirculatingSupply() {
     if (sorting !== 'CirculatingSupplyDown') {
       setSorting('CirculatingSupplyDown')
@@ -121,86 +124,67 @@ function CoinsList(props) {
       setSorting('CirculatingSupplyUp')
     }
   }
-  
-  if (sorting === 'NameDown') {
-    sortedCoins = sortByName(searchedCoins)
-    triangleName = <VscTriangleDown />
-  }
-  else if (sorting === 'NameUp') {
-    sortedCoins = sortByName(searchedCoins).reverse()
-    triangleName = <VscTriangleUp />
-  }
-  else if (sorting === 'PriceUp') {
-    sortedCoins = sortByPrice(searchedCoins)
-    trianglePrice = <VscTriangleUp />
-  }
-  else if (sorting === 'PriceDown') {
-    sortedCoins = sortByPrice(searchedCoins).reverse()
-    trianglePrice = <VscTriangleDown />
-  }
-  else if (sorting === 'IndexUp') {
-    sortedCoins = searchedCoins.reverse()
+
+  sortedCoins = sorted(sorting, searchedCoins, props.currency)
+  if (sorting === 'IndexUp') {
     triangleIndex = <VscTriangleUp />
   }
   else if (sorting === 'IndexDown') {
-    sortedCoins = searchedCoins
     triangleIndex = <VscTriangleDown />
+  }
+  else if (sorting === 'NameUp') {
+    triangleName = <VscTriangleUp />
+  }
+  else if (sorting === 'NameDown') {
+    triangleName = <VscTriangleDown />
+  }
+  else if (sorting === 'PriceUp') {
+    trianglePrice = <VscTriangleUp />
+  }
+  else if (sorting === 'PriceDown') {
+    trianglePrice = <VscTriangleDown />
   }
   else if (sorting === '24hDown') {
     triangle24h = <VscTriangleDown />
-    // if(props.currency === 'EUR'){
-    //   sortedCoins = sortBy24h(searchedCoins.quote.EUR)
-    // }
   }
   else if (sorting === '24hUp') {
-    sortedCoins = searchedCoins
-    triangle24h = <VscTriangleDown />
+    triangle24h = <VscTriangleUp />
   }
   else if (sorting === '7dDown') {
-    sortedCoins = searchedCoins
     triangle7d = <VscTriangleDown />
   }
   else if (sorting === '7dUp') {
-    sortedCoins = searchedCoins
-    triangle7d = <VscTriangleDown />
+    triangle7d = <VscTriangleUp />
   }
   else if (sorting === 'MarketCapDown') {
-    sortedCoins = searchedCoins
     triangleMarketCap = <VscTriangleDown />
   }
   else if (sorting === 'MarketCapUp') {
-    sortedCoins = searchedCoins
-    triangleMarketCap = <VscTriangleDown />
+    triangleMarketCap = <VscTriangleUp />
   }
   else if (sorting === 'VolumeDown') {
-    sortedCoins = searchedCoins
     triangleVolume = <VscTriangleDown />
   }
   else if (sorting === 'VolumeUp') {
-    sortedCoins = searchedCoins
-    triangleVolume = <VscTriangleDown />
+    triangleVolume = <VscTriangleUp />
   }
   else if (sorting === 'CirculatingSupplyDown') {
-    sortedCoins = sortBySupply(searchedCoins)
     triangleCirculatingSupply = <VscTriangleDown />
   }
   else if (sorting === 'CirculatingSupplyUp') {
-    sortedCoins = sortBySupply(searchedCoins)
-    triangleCirculatingSupply = <VscTriangleDown />
+    triangleCirculatingSupply = <VscTriangleUp />
   }
-
 
   React.useEffect(() => {
     getCoinData()
-    console.log(sorting)
-  }, [sorting]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   if (props.coins && props.coins.length > 0 && props.coins[0].quote.USD) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data, index) => (
-          <Coin key={data.name} index={index} coin={data} currencyData={data.quote.USD} fiatSymbol='$' />
+        sortedCoins.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.USD} fiatSymbol='$' />
         ))
       )
     }
@@ -209,8 +193,8 @@ function CoinsList(props) {
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.EUR) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data, index) => (
-          <Coin key={data.name} index={index} coin={data} currencyData={data.quote.EUR} fiatSymbol='€' />
+        sortedCoins.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.EUR} fiatSymbol='€' />
         ))
       )
     }
@@ -219,8 +203,8 @@ function CoinsList(props) {
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.GBP) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data, index) => (
-          <Coin key={data.name} index={index} coin={data} currencyData={data.quote.GBP} fiatSymbol='£' />
+        sortedCoins.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.GBP} fiatSymbol='£' />
         ))
       )
     }
@@ -229,12 +213,16 @@ function CoinsList(props) {
   if (props.coins && props.coins.length > 0) {
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider className='containerList' theme={theme}>
+        <CssBaseline />
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <WatchlistButton />
+          <PortfolioButton />
           <SelectCurrency color='secondary' />
           <form className={classes.root} noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
             <TextField id="standard-basic" label="Search" />
           </form>
+          <BackgroundThemeButton />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <TableContainer className={classes.tableContainer} component={Paper}>
@@ -242,8 +230,8 @@ function CoinsList(props) {
               <TableHead>
                 <TableRow>
                   <TableCell></TableCell>
-                  <TableCell onClick={handleClickIndex}>#{triangleIndex}</TableCell>
-                  <TableCell onClick={handleClickName}>Name{triangleName}</TableCell>
+                  <TableCell onClick={handleClickIndex} className='tabTitle'>#{triangleIndex}</TableCell>
+                  <TableCell onClick={handleClickName} className='tabTitle'>Name{triangleName}</TableCell>
                   <TableCell onClick={handleClickPrice} className='tabTitle' align="right">Price{trianglePrice}</TableCell>
                   <TableCell onClick={handleClick24h} className='tabTitle' align="right">{triangle24h}24h %</TableCell>
                   <TableCell onClick={handleClick7d} className='tabTitle' align="right">{triangle7d}7d %</TableCell>
@@ -270,7 +258,8 @@ function CoinsList(props) {
 const mapStateToProps = (state) => {
   return {
     coins: state.coins.data,
-    currency: state.coins.currency
+    currency: state.coins.currency,
+    blackTheme: state.coins.theme
   }
 };
 

@@ -40,7 +40,7 @@ function Coin(props) {
         </span>
       </TableCell>
       <TableCell component="th" scope="row">
-        {props.index + 1}
+        {props.rank}
       </TableCell>
       <TableCell component="th" scope="row">
         <Box className="coinName" display="flex">
