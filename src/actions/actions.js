@@ -12,6 +12,6 @@ export const coinsRequestAction = (currency) => (
   { type: REQUEST_COINS, currency }
 );
 
-export const updateThemeAction = (themeChecked) => (
-  { type: UPDATE_THEME, themeChecked }
+export const updateThemeAction = (blackTheme) => (
+  { type: UPDATE_THEME, blackTheme }
 );

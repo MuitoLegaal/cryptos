@@ -101,27 +101,27 @@ function Coin(props) {
       >
         <div className='popoverContainer'>
           <div className='popoverContent'>
-            <Typography variant='footer'>
+            <Typography>
               Percentage:
           </Typography>
-            <Typography variant='footer'>
+            <Typography>
               {formatNumberWithDecimals(props.coin.circulating_supply / props.coin.max_supply * 100)}%
           </Typography>
           </div>
           <LinearProgress className={classes.root} variant="determinate" value={props.coin.circulating_supply / props.coin.max_supply * 100} />
           <div className='popoverContent'>
-            <Typography variant='footer'>
+            <Typography>
               Circulating Supply:
           </Typography>
-            <Typography variant='footer'>
+            <Typography>
               {formatNumberNoDecimal(props.coin.circulating_supply)}&nbsp;{props.coin.symbol}
             </Typography>
           </div>
           <div className='popoverContent'>
-            <Typography variant='footer'>
+            <Typography>
               Max Supply:
           </Typography>
-            <Typography variant='footer'>
+            <Typography>
               {formatNumberNoDecimal(props.coin.max_supply)}&nbsp;{props.coin.symbol}
             </Typography>
           </div>

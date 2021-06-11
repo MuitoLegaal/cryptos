@@ -10,7 +10,7 @@ let initialState = {
   data: [],
   isCurrentlyLoading: false,
   currency: "EUR",
-  theme: false
+  blackTheme: false
 }
 
 function coins(state = initialState, action) {

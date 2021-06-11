@@ -6,10 +6,13 @@ import Select from '@material-ui/core/Select';
 import { coinsRequestAction } from '../actions/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { useStyles, theme } from "./styleSelectCurrencies";
+import { useStyles } from "./styleSelectCurrencies";
+import { lightTheme } from "./theme/lightTheme";
+import { darkTheme } from "./theme/darkTheme";
 import { ThemeProvider } from '@material-ui/styles';
 
 function SelectCurrency(props) {
+  const theme = props.dark ? { ...darkTheme } : { ...lightTheme };
   const classes = useStyles();
 
   const handleChange = async (event) => {

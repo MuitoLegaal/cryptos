@@ -1,6 +1,5 @@
 import { 
   makeStyles,
-  unstable_createMuiStrictModeTheme as createMuiTheme,
   withStyles
 } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,22 +16,25 @@ const GreenTableCell = withStyles({
   }
 })(TableCell);
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 10,
-    color: theme.palette.secondary
+    color: theme.palette.primary
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+    color: theme.palette.primary
   },
   table: {
     width: "100%",
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color: theme.palette.primary
   },
   tableContainer: {
     minWidth: 800,
-    width: "100%"
+    width: "100%",
+    color: theme.palette.primary
   }
 }));
 
@@ -51,51 +53,5 @@ const useStylesPopover = makeStyles((theme) => ({
   },
 }));
 
-const theme = createMuiTheme({
-  palette: {
-    type: 'light',
-    primary: {
-      main: '#000000',
-    },
-    secondary: {
-      main: '#e67e22'
-    },
-    textPrimary: {
-      main: 'black',
-    },
-    textSecondary: {
-      main: 'white',
-    }
-  },
-  typography: {
-    useNextVariants: true,
-    fontFamily: "Inter",
-    body1: {
-      display: "flex",
-      fontSize: "1.05rem",
-      fontFamily: "Inter",
-      verticalAlign: "middle",
-      alignItems: "center",
-      textAlign: "center"
-    },
-    body2: {
-      display: "flex",
-      fontSize: "1rem",
-      fontFamily: "Inter",
-      verticalAlign: "middle",
-      alignItems: "center",
-      textAlign: "center",
-      fontWeight: 100
-    },
-    subtitle1: {
-      display: "flex",
-      fontSize: "0.8rem",
-      fontFamily: "Inter",
-      verticalAlign: "middle",
-      alignItems: "center",
-      textAlign: "center"
-    }
-  }
-});
 
-export {useStyles, useStylesPopover, linearProgressStyles, theme, RedTableCell, GreenTableCell}
+export {useStyles, useStylesPopover, linearProgressStyles, RedTableCell, GreenTableCell}

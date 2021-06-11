@@ -14,7 +14,9 @@ import { bindActionCreators } from "redux";
 import { coinsRequestAction } from '../actions/actions';
 import SelectCurrency from './selectCurrency';
 import Coin from './coin';
-import { useStyles, theme } from "./styleSelectCurrencies"
+import { useStyles } from "./styleSelectCurrencies";
+import { lightTheme } from "./theme/lightTheme";
+import { darkTheme } from "./theme/darkTheme";
 import { ThemeProvider } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import { TableBody } from '@material-ui/core';
@@ -29,6 +31,7 @@ function CoinsList(props) {
   const [sorting, setSorting] = React.useState('IndexUp');
   const classes = useStyles();
   const searchedCoins = searching(props.coins);
+  const theme = props.dark ? { ...darkTheme } : { ...lightTheme };
   let generateCoin
   let sortedCoins = searchedCoins
   let triangleName
@@ -213,12 +216,12 @@ function CoinsList(props) {
   if (props.coins && props.coins.length > 0) {
 
     return (
-      <ThemeProvider className='containerList' theme={theme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <WatchlistButton />
           <PortfolioButton />
-          <SelectCurrency color='secondary' />
+          <SelectCurrency />
           <form className={classes.root} noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
             <TextField id="standard-basic" label="Search" />
           </form>
@@ -259,7 +262,7 @@ const mapStateToProps = (state) => {
   return {
     coins: state.coins.data,
     currency: state.coins.currency,
-    blackTheme: state.coins.theme
+    dark: state.coins.blackTheme
   }
 };
 
