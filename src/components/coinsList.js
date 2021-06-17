@@ -20,8 +20,6 @@ import { darkTheme } from "./theme/darkTheme";
 import { ThemeProvider } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import { TableBody } from '@material-ui/core';
-import WatchlistButton from './watchListButton';
-import PortfolioButton from './portfolioButton';
 import { sorted } from '../utils/logic/sortingConditions';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 import Paginate from './pagination';
@@ -227,8 +225,6 @@ function CoinsList(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <WatchlistButton />
-          <PortfolioButton darkTheme={props.dark}/>
           <SelectCurrency />
           <form noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
             <TextField color='primary' label="Search" />
