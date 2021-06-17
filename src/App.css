@@ -1,38 +1,92 @@
-.App {
-  text-align: center;
+html body [blackTheme='false'] {
+ background-color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html body [blackTheme='true'] {
+ background-color: black;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  justify-content: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.containerLoading {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height:100%;
+  position: absolute;
+  width: 100%;
+  background-color: #FFFFFF;
 }
 
-.App-link {
-  color: #61dafb;
+.coinLogo {
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.lock:hover .icon-unlock,
+.lock .icon-lock {
+  display: none;
+  width: 20px;
+}
+.lock .icon-unlock {
+  width: 20px;
+}
+.lock:hover .icon-unlock {
+  width: 20px;
+}
+.lock:hover .icon-lock {
+  display: inline;
+  width: 20px;
+}
+
+.coinName {
+  white-space: nowrap;
+}
+
+.styleGain{
+  color: green
+}
+
+.styleLoss{
+  color: red
+}
+
+.popoverContainer{
+  width: 320px;
+}
+
+.popoverContent{
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabTitle{
+  cursor: pointer;
+}
+
+.graphUp {
+  filter: hue-rotate(
+85deg
+) saturate(80%) brightness(0.85);
+}
+
+.graphDown {
+  filter: hue-rotate(
+300deg
+) saturate(210%) brightness(0.7) contrast(170%);
+}
+
+.tableGraph {
+  width: 164px;
+  height: 48px;
+  text-align: center;
+  box-sizing: content-box;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }
