@@ -6,6 +6,7 @@ import { updateThemeAction } from '../actions/actions'
 
 function BackgroundThemeButton(props) {
   const [isChecked, setIsChecked] = React.useState(false);
+  
 
   const handleChange = async () => {
     props.updateThemeAction(!isChecked)
@@ -17,7 +18,7 @@ function BackgroundThemeButton(props) {
       <Switch
         checked={isChecked}
         onChange={handleChange}
-        color="primary"
+        color="secondary"
         inputProps={{ 'aria-label': 'primary checkbox' }}
       />
     </div>

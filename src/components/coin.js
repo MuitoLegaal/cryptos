@@ -9,26 +9,23 @@ import StarIcon from '@material-ui/icons/Star';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { linearProgressStyles, GreenTableCell, RedTableCell, useStylesPopover } from './styleSelectCurrencies';
+import { GreenTableCell, RedTableCell, useStylesPopover } from './styleSelectCurrencies';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { VscTriangleUp, VscTriangleDown } from 'react-icons/vsc';
 
 
 function Coin(props) {
 
-  const classes = linearProgressStyles();
   const classesPopover = useStylesPopover();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
+  const linearColor = props.darkTheme ? 'secondary' : 'primary';
 
 
   return (
@@ -63,8 +60,8 @@ function Coin(props) {
       {props.currencyData.percent_change_7d < 0 &&
         <RedTableCell align="right"><VscTriangleDown className='styleLoss' />{formatNumberWithDecimals(props.currencyData.percent_change_7d).substring(1)}%</RedTableCell>
       }
-      <TableCell align="right">{formatNumberNoDecimal(props.currencyData.market_cap)}</TableCell>
-      <TableCell align="right">{formatNumberNoDecimal(props.currencyData.volume_24h)}
+      <TableCell align="right">{props.fiatSymbol}{formatNumberNoDecimal(props.currencyData.market_cap)}</TableCell>
+      <TableCell align="right">{props.fiatSymbol}{formatNumberNoDecimal(props.currencyData.volume_24h)}
         <p>{formatNumberNoDecimal(props.currencyData.volume_24h / props.currencyData.price)}&nbsp;{props.coin.symbol}</p>
       </TableCell>
       <TableCell align="right">
@@ -75,10 +72,18 @@ function Coin(props) {
             onMouseEnter={handlePopoverOpen}
             onMouseLeave={handlePopoverClose} />
         }
-        &nbsp;{formatNumberNoDecimal(props.coin.circulating_supply)}
+        &nbsp;{formatNumberNoDecimal(props.coin.circulating_supply)}&nbsp;{props.coin.symbol}
         {props.coin.max_supply &&
-          <LinearProgress className={classes.root} variant="determinate" value={props.coin.circulating_supply / props.coin.max_supply * 100} />
+          <LinearProgress color={linearColor} variant="determinate" value={props.coin.circulating_supply / props.coin.max_supply * 100} />
         }
+      </TableCell>
+      <TableCell>
+      {props.currencyData.percent_change_7d >= 0 &&
+        <img className='graphUp' alt={`${props.coin.name}_7d_graph`} src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/usd/${props.coin.id}.png`} />
+      }
+          {props.currencyData.percent_change_7d < 0 &&
+        <img className='graphDown' alt={`${props.coin.name}_7d_graph`} src={`https://s3.coinmarketcap.com/generated/sparklines/web/7d/usd/${props.coin.id}.png`} />
+      }
       </TableCell>
       <Popover
         id="mouse-over-popover"
@@ -108,7 +113,7 @@ function Coin(props) {
               {formatNumberWithDecimals(props.coin.circulating_supply / props.coin.max_supply * 100)}%
           </Typography>
           </div>
-          <LinearProgress className={classes.root} variant="determinate" value={props.coin.circulating_supply / props.coin.max_supply * 100} />
+          <LinearProgress color={linearColor} variant="determinate" value={props.coin.circulating_supply / props.coin.max_supply * 100} />
           <div className='popoverContent'>
             <Typography>
               Circulating Supply:

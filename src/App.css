@@ -1,6 +1,9 @@
-html body {
+html body [blackTheme='false'] {
  background-color: white;
- color: white;
+}
+
+html body [blackTheme='true'] {
+ background-color: black;
 }
 
 body {
@@ -65,4 +68,25 @@ body {
 
 .tabTitle{
   cursor: pointer;
+}
+
+.graphUp {
+  filter: hue-rotate(
+85deg
+) saturate(80%) brightness(0.85);
+}
+
+.graphDown {
+  filter: hue-rotate(
+300deg
+) saturate(210%) brightness(0.7) contrast(170%);
+}
+
+.tableGraph {
+  width: 164px;
+  height: 48px;
+  text-align: center;
+  box-sizing: content-box;
+  padding-top: 2px;
+  padding-bottom: 3px;
 }

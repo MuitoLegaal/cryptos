@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PortfolioButton() {
+export default function PortfolioButton(props) {
   const classes = useStyles();
 
   return (

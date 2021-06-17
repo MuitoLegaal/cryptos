@@ -24,11 +24,15 @@ import WatchlistButton from './watchListButton';
 import PortfolioButton from './portfolioButton';
 import { sorted } from '../utils/logic/sortingConditions';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
+import Paginate from './pagination';
 
 function CoinsList(props) {
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [coinsPerPage] = React.useState(10);
   const [search, setSearch] = React.useState('');
-  const [sorting, setSorting] = React.useState('IndexUp');
+  const [sorting, setSorting] = React.useState('IndexDown');
   const classes = useStyles();
   const searchedCoins = searching(props.coins);
   const theme = props.dark ? { ...darkTheme } : { ...lightTheme };
@@ -178,16 +182,20 @@ function CoinsList(props) {
     triangleCirculatingSupply = <VscTriangleUp />
   }
 
+  const indexOfLastCoin = currentPage * coinsPerPage;
+  const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
+  const currentCoin = sortedCoins.slice(indexOfFirstCoin, indexOfLastCoin);
+
   React.useEffect(() => {
     getCoinData()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentPage]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   if (props.coins && props.coins.length > 0 && props.coins[0].quote.USD) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data) => (
-          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.USD} fiatSymbol='$' />
+        currentCoin.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.USD} fiatSymbol='$' darkTheme={props.dark}/>
         ))
       )
     }
@@ -196,8 +204,8 @@ function CoinsList(props) {
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.EUR) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data) => (
-          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.EUR} fiatSymbol='€' />
+        currentCoin.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.EUR} fiatSymbol='€' darkTheme={props.dark} />
         ))
       )
     }
@@ -206,8 +214,8 @@ function CoinsList(props) {
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.GBP) {
     generateCoin = () => {
       return (
-        sortedCoins.map((data) => (
-          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.GBP} fiatSymbol='£' />
+        currentCoin.map((data) => (
+          <Coin key={data.name} rank={data.cmc_rank} coin={data} currencyData={data.quote.GBP} fiatSymbol='£' darkTheme={props.dark} />
         ))
       )
     }
@@ -220,10 +228,10 @@ function CoinsList(props) {
         <CssBaseline />
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <WatchlistButton />
-          <PortfolioButton />
+          <PortfolioButton darkTheme={props.dark}/>
           <SelectCurrency />
-          <form className={classes.root} noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
-            <TextField id="standard-basic" label="Search" />
+          <form noValidate autoComplete="off" onChange={(e) => setSearch(e.target.value)}>
+            <TextField color='primary' label="Search" />
           </form>
           <BackgroundThemeButton />
         </div>
@@ -241,6 +249,7 @@ function CoinsList(props) {
                   <TableCell onClick={handleClickMarketCap} className='tabTitle' align="right">{triangleMarketCap}Market Cap</TableCell>
                   <TableCell onClick={handleClickVolume} className='tabTitle' align="right">{triangleVolume}Volume(24h)</TableCell>
                   <TableCell onClick={handleClickCirculatingSupply} className='tabTitle' align="right">{triangleCirculatingSupply}Circulating Supply</TableCell>
+                  <TableCell className='tabTitle' align="right">Last 7 Days</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -249,6 +258,8 @@ function CoinsList(props) {
             </Table>
           </TableContainer>
         </div>
+        <Paginate
+         paginate={paginate} coins={sortedCoins} coinsPerPage={coinsPerPage} currentPage={currentPage} darkTheme={props.dark}/>
       </ThemeProvider>
     )
   }
