@@ -2,9 +2,11 @@ const express = require('express');
 const request = require('request');
 const API_KEYS = process.env.REACT_APP_API_KEYS;
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const path = require('path')
 
 const app = express();
 var bodyParser = require('body-parser');
+const { buildQueries } = require('@testing-library/dom');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 const PORT = process.env.PORT || 4000;
@@ -26,4 +28,12 @@ app.post('/data', (req, res) => {
   )
 });
 
-app.listen(PORT, () => console.log(`listening on PORT:${PORT}`));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static( '/build' ))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); 
+  });
+}
+
+app.listen(PORT, () => console.log(`listening on PORT: ${PORT}`));
