@@ -28,7 +28,7 @@
     "eject": "react-scripts eject",
     "server": "node-env-run server --exec nodemon | pino-colada",
     "dev": "run-p server start",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd cryptos && npm install && npm run build"
   },
   "proxy": "http://localhost:4000",
   "eslintConfig": {
