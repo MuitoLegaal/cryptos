@@ -1,5 +1,5 @@
 const fetchCoinsData = async (currency) => {
-  const data = await fetch('http://localhost:4000/', {
+  const data = await fetch('http://localhost:4000/api', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `currencyFromFront=${currency}`

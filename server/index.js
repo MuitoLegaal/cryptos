@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/', (req, res) => {
+app.post('/api', (req, res) => {
   request(
     { url: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=150&convert=${req.body.currencyFromFront}`, headers: { 'X-CMC_PRO_API_KEY': API_KEYS,} },
     (error, response, body) => {
