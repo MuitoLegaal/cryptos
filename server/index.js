@@ -6,7 +6,7 @@ const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
-const PORT = process.env.PORT || 4000;
+
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -27,4 +27,7 @@ app.post('/api', (req, res) => {
   )
 });
 
-app.listen(PORT, () => console.log(`listening on PORT:${PORT}`));
+const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
