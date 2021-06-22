@@ -6,7 +6,6 @@ const path = require('path')
 
 const app = express();
 var bodyParser = require('body-parser');
-const { buildQueries } = require('@testing-library/dom');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 const PORT = process.env.PORT || 4000;
@@ -16,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/data', (req, res) => {
+app.post('/api', (req, res) => {
   request(
     { url: `${BASE_URL}/v1/cryptocurrency/listings/latest?start=1&limit=150&convert=${req.body.currencyFromFront}`, headers: { 'X-CMC_PRO_API_KEY': API_KEYS } },
     (error, response, body) => {
