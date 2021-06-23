@@ -3,13 +3,13 @@ const request = require('request');
 const API_KEYS = process.env.REACT_APP_API_KEYS;
 
 const app = express();
+const PORT = process.env.PORT || 4000;
+const HOST = '0.0.0.0';
+
+console.log("env ", process.env.NODE_ENV);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Express only serves static assets in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -30,7 +30,12 @@ app.post('/api', (req, res) => {
   )
 });
 
-const PORT = process.env.PORT || 4000;
-const HOST = '0.0.0.0';
+// Express only serves static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  })
+}
 
 app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
