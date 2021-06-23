@@ -3,9 +3,8 @@ const request = require('request');
 const API_KEYS = process.env.REACT_APP_API_KEYS;
 
 const app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
