@@ -4,10 +4,8 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://[::1]:4000',
-      headers: {
-        "Connection": "keep-alive"
-      },
+      target: 'http://[::1]:5000',
+      secure: false,
       changeOrigin: true,
     })
   );
