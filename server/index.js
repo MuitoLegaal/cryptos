@@ -26,7 +26,7 @@ app.post('/api/data', (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-// const HOST = '0.0.0.0';
+const HOST = '0.0.0.0';
 
 
 // Express only serves static assets in production
@@ -37,4 +37,4 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-app.listen(PORT, () => console.log(`listening on PORT:${PORT}`));
+app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
