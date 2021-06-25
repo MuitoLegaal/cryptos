@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://cryptosmarket.herokuapp.com/',
+      target: 'http://localhost:4000',
       secure: false,
       changeOrigin: true,
     })
