@@ -45,8 +45,6 @@ function CoinsList(props) {
   let triangleVolume
   let triangleCirculatingSupply
 
-  console.log(props)
-
   const getCoinData = async () => {
     await props.coinsRequestAction(props.currency)
   }

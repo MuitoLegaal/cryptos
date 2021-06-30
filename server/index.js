@@ -13,7 +13,6 @@ app.use((req, res, next) => {
 });
 
 app.post('/api/data', (req, res) => {
-  console.log(req.body)
   request(
     { url: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=150&convert=${req.body.currencyFromFront}`, headers: { 'X-CMC_PRO_API_KEY': API_KEYS,} },
     (error, response, body) => {
