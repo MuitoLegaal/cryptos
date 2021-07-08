@@ -32,10 +32,8 @@ function CoinsList(props) {
   const [search, setSearch] = React.useState('');
   const [sorting, setSorting] = React.useState('IndexDown');
   const classes = useStyles();
-  const searchedCoins = searching(props.coins);
   const theme = props.dark ? { ...darkTheme } : { ...lightTheme };
   let generateCoin
-  let sortedCoins = searchedCoins
   let triangleName
   let trianglePrice
   let triangleIndex
@@ -128,7 +126,10 @@ function CoinsList(props) {
     }
   }
 
-  sortedCoins = sorted(sorting, searchedCoins, props.currency)
+  // let sortedCoins = sorted(sorting, searching(props.coins), props.currency)
+  let searchedCoins = searching(props.coins)
+  let sortedCoins = sorted(sorting, searchedCoins)
+
   if (sorting === 'IndexUp') {
     triangleIndex = <VscTriangleUp />
   }
@@ -188,6 +189,7 @@ function CoinsList(props) {
 
 
   if (props.coins && props.coins.length > 0 && props.coins[0].quote.USD) {
+    console.log('$')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
@@ -198,6 +200,7 @@ function CoinsList(props) {
   }
 
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.EUR) {
+    console.log('€')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
@@ -208,6 +211,7 @@ function CoinsList(props) {
   }
 
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.GBP) {
+    console.log('£')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
