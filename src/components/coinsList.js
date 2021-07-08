@@ -26,8 +26,8 @@ import Paginate from './pagination';
 
 function CoinsList(props) {
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [coinsPerPage] = React.useState(10);
   const [search, setSearch] = React.useState('');
   const [sorting, setSorting] = React.useState('IndexDown');
@@ -42,6 +42,8 @@ function CoinsList(props) {
   let triangleMarketCap
   let triangleVolume
   let triangleCirculatingSupply
+  let searchedCoins = searching(props.coins)
+  let sortedCoins = sorted(sorting, searchedCoins)
 
   const getCoinData = async () => {
     await props.coinsRequestAction(props.currency)
@@ -126,9 +128,7 @@ function CoinsList(props) {
     }
   }
 
-  // let sortedCoins = sorted(sorting, searching(props.coins), props.currency)
-  let searchedCoins = searching(props.coins)
-  let sortedCoins = sorted(sorting, searchedCoins)
+
 
   if (sorting === 'IndexUp') {
     triangleIndex = <VscTriangleUp />
@@ -189,7 +189,6 @@ function CoinsList(props) {
 
 
   if (props.coins && props.coins.length > 0 && props.coins[0].quote.USD) {
-    console.log('$')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
@@ -200,7 +199,6 @@ function CoinsList(props) {
   }
 
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.EUR) {
-    console.log('€')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
@@ -211,7 +209,6 @@ function CoinsList(props) {
   }
 
   else if (props.coins && props.coins.length > 0 && props.coins[0].quote.GBP) {
-    console.log('£')
     generateCoin = () => {
       return (
         currentCoin.map((data) => (
@@ -257,7 +254,8 @@ function CoinsList(props) {
           </TableContainer>
         </div>
         <Paginate
-         paginate={paginate} coins={sortedCoins} coinsPerPage={coinsPerPage} currentPage={currentPage} darkTheme={props.dark}/>
+         paginate={paginate} coins={sortedCoins} coinsPerPage={coinsPerPage}
+         currentPage={currentPage} darkTheme={props.dark}/>
       </ThemeProvider>
     )
   }

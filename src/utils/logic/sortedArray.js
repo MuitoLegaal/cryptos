@@ -63,7 +63,6 @@ export function sortByVolumeUSD(data){
 }
 
 export function sortByVolumeGBP(data){
-  console.log(data[30].quote)
   return data.sort((a, b) => a.quote.GBP.volume_24h - b.quote.GBP.volume_24h)
 }
 
