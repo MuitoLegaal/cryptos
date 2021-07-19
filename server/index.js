@@ -13,6 +13,9 @@ app.use((req, res, next) => {
 });
 
 app.post('/api/data', (req, res) => {
+  setTimeout(() => {
+    res.send('done');
+  }, 180000)
   request(
     { url: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=150&convert=${req.body.currencyFromFront}`, headers: { 'X-CMC_PRO_API_KEY': API_KEYS,} },
     (error, response, body) => {
@@ -36,4 +39,5 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
+const server = app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
+server.timeout = 240000;
