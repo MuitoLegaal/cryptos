@@ -6,6 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+console.log("env", process.env.NODE_ENV)
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -35,10 +37,12 @@ const HOST = '0.0.0.0';
 // Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
-  app.post("*", (req, res) => {
+  app.get("/*", (req, res) => {
+    res.sendFile("client/build/index.html");
+  })
+  app.post("/*", (req, res) => {
     res.sendFile("client/build/index.html");
   })
 }
 
-const server = app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
-server.timeout = 240000;
+app.listen(PORT, HOST, () => console.log(`listening on PORT:${PORT}`));
