@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 console.log("env", process.env.NODE_ENV)
+var environment = process.env.NODE_ENV || 'production';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -40,12 +41,9 @@ const HOST = '0.0.0.0';
 
 
 // Express only serves static assets in production
-if (process.env.NODE_ENV === "production") {
+if (environment === "production") {
   app.use(express.static("client/build"));
   app.get("/*", (req, res) => {
-    res.sendFile("client/build/index.html");
-  })
-  app.post("/*", (req, res) => {
     res.sendFile("client/build/index.html");
   })
 }

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const fetchCoinsData = async (currency) => {
   // const data = await fetch('/api/data', {
   //   method: 'POST',
