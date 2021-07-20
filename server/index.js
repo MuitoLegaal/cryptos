@@ -15,6 +15,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/api/message', (req, res) => {
+  res.json({ message: "Test déploiement d'O'Films sur Heroku" });
+}
+)
+
 app.post('/api/data', (req, res) => {
   setTimeout(() => {
     res.send('done');
