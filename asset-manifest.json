@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/cryptos/static/css/main.e57213f2.chunk.css",
+    "main.js": "/cryptos/static/js/main.bd5b514b.chunk.js",
+    "main.js.map": "/cryptos/static/js/main.bd5b514b.chunk.js.map",
+    "runtime-main.js": "/cryptos/static/js/runtime-main.7d835def.js",
+    "runtime-main.js.map": "/cryptos/static/js/runtime-main.7d835def.js.map",
+    "static/js/2.fd6d049c.chunk.js": "/cryptos/static/js/2.fd6d049c.chunk.js",
+    "static/js/2.fd6d049c.chunk.js.map": "/cryptos/static/js/2.fd6d049c.chunk.js.map",
+    "static/js/3.f6defc22.chunk.js": "/cryptos/static/js/3.f6defc22.chunk.js",
+    "static/js/3.f6defc22.chunk.js.map": "/cryptos/static/js/3.f6defc22.chunk.js.map",
+    "index.html": "/cryptos/index.html",
+    "static/css/main.e57213f2.chunk.css.map": "/cryptos/static/css/main.e57213f2.chunk.css.map",
+    "static/js/2.fd6d049c.chunk.js.LICENSE.txt": "/cryptos/static/js/2.fd6d049c.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/cryptos/static/media/Inter-VariableFont_slnt,wght.f958c681.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7d835def.js",
+    "static/js/2.fd6d049c.chunk.js",
+    "static/css/main.e57213f2.chunk.css",
+    "static/js/main.bd5b514b.chunk.js"
+  ]
+}
