@@ -36,7 +36,7 @@ const HOST = '0.0.0.0';
 
 
 // Express only serves static assets in production
-if (process.env.NODE_ENV === "production") {
+if (environment === "production") {
   app.use(express.static("client/build"));
   app.post("/*", (req, res) => {
     res.sendFile("client/build/index.html");
