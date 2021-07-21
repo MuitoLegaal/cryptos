@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 console.log("env", process.env.NODE_ENV)
-var environment = process.env.NODE_ENV || 'production';
+var environment = process.env.NODE_ENV || 'development';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -15,11 +15,6 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT")
   next();
 });
-
-app.get('/api/message', (req, res) => {
-  res.json({ message: "Test déploiement d'O'Films sur Heroku" });
-}
-)
 
 app.post('/api/data', (req, res) => {
   setTimeout(() => {
@@ -41,9 +36,9 @@ const HOST = '0.0.0.0';
 
 
 // Express only serves static assets in production
-if (environment === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
-  app.get("/*", (req, res) => {
+  app.post("/*", (req, res) => {
     res.sendFile("client/build/index.html");
   })
 }
