@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('request');
 const API_KEYS = process.env.REACT_APP_API_KEYS;
+var cors = require('cors')
 
 const app = express();
 app.use(express.json());
